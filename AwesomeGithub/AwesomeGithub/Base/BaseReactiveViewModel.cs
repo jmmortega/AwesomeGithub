@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace AwesomeGithub.Base
 {
@@ -17,5 +18,18 @@ namespace AwesomeGithub.Base
         public virtual void OnDisappearing()
         { }
                     
+
+        protected async Task<T> ExecuteInternetCallAsync<T>(Func<Task<T>> operation)
+        {
+            try
+            {
+                return await operation();
+            }
+            catch(Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e);
+                return default(T);
+            }
+        }
     }
 }

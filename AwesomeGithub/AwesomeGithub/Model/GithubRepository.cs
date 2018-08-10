@@ -8,7 +8,7 @@ namespace AwesomeGithub.Model
     public class GithubRepository
     {
         [JsonProperty("name")]
-        public string Name { get; set; }
+        public string RepositoryName { get; set; }
 
         [JsonProperty("description")]
         public string Description { get; set; }

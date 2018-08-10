@@ -5,5 +5,53 @@
              xmlns:me="clr-namespace:AwesomeGithub.Features.Main"
              x:Class="AwesomeGithub.Features.Main.MainView"
              x:TypeArguments="me:MainViewModel">
+
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Entry x:Name="EntrySearchBox" Grid.Row="0"/>
+
+        <ListView x:Name="ListViewRepositories" Grid.Row="1">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="7*"/>
+                                <ColumnDefinition Width="3*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <StackLayout Grid.Column="0">
+                                <Label Text="{Binding Name}"/>
+
+                                <Label Text="{Binding Description}"/>
+
+                                <StackLayout Orientation="Horizontal">
+                                    <BoxView BackgroundColor="Orange" WidthRequest="20" HeightRequest="20"/>
+                                    <Label Text="{Binding ForksCount}"/>
+
+                                    <BoxView BackgroundColor="Orange" WidthRequest="20" HeightRequest="20"/>
+                                    <Label Text="{Binding StarsCount}"/>
+
+                                </StackLayout>
+                            </StackLayout>
+
+                            <StackLayout Grid.Column="1">
+                                <Image Source="{Binding Avatar}" Aspect="AspectFill" WidthRequest="50"/>
+
+                                <Label Text="{Binding Username}"/>
+                                <Label Text="{Binding FullName}"/>
+                            </StackLayout>
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+    </Grid>
     
 </base:BaseReactiveContentPage>

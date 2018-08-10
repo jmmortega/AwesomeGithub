@@ -3,13 +3,14 @@ using Refit;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace AwesomeGithub.Services.Interfaces
 {
     public interface IGithubService
     {
         [Get("repos/search/repositories?q=language:{language}&sort=stars&page=1")]
-        GithubRepositoryResult SearchRepositories(string language);
+        Task<GithubRepositoryResult> SearchRepositories(string language);
 
 
     }

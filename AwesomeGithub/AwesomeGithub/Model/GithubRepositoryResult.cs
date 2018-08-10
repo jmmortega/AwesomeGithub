@@ -11,6 +11,7 @@ namespace AwesomeGithub.Model
         public int Count { get; set; }
 
         [JsonProperty("items")]
-        public List<GithubRepository> Items { get; set; }
+        public List<GithubRepository> Items { get; set; } = new List<GithubRepository>();
+       
     }
 }

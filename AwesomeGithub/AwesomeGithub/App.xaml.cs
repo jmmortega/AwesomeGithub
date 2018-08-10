@@ -1,3 +1,5 @@
+using AwesomeGithub.Features.Main;
+using AwesomeGithub.Features.MasterDetail;
 using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -11,7 +13,7 @@ namespace AwesomeGithub
 		{
 			InitializeComponent();
 
-			//MainPage = 
+            MainPage = new MasterDetailPage() { Master = new MasterView(), Detail = new MainView(), IsGestureEnabled = true };
 		}
 
 		protected override void OnStart ()

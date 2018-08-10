@@ -1,4 +1,6 @@
-﻿using Xamarin.Forms.Xaml;
+﻿using ReactiveUI;
+using System;
+using Xamarin.Forms.Xaml;
 
 namespace AwesomeGithub.Features.MasterDetail
 {
@@ -9,5 +11,14 @@ namespace AwesomeGithub.Features.MasterDetail
 		{
 			InitializeComponent ();
 		}
-	}
+
+        protected override void CreateBindings(Action<IDisposable> d)
+        {
+            base.CreateBindings(d);
+            
+            d(this.Bind(ViewModel, vm => vm.LanguageCode, v => v.EntryLanguageCode.Text));
+        }
+
+        
+    }
 }

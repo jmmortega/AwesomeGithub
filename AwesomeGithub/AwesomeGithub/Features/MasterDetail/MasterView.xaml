@@ -5,5 +5,12 @@
              xmlns:me="clr-namespace:AwesomeGithub.Features.MasterDetail"
              x:Class="AwesomeGithub.Features.MasterDetail.MasterView"
              x:TypeArguments="me:MasterViewModel">
+
+    <Grid>
+        <Entry x:Name="EntryLanguageCode" />
+
+
+        <BoxView BackgroundColor="Silver" HeightRequest="1" HorizontalOptions="FillAndExpand"/>
+    </Grid>
     
 </base:BaseReactiveContentPage>

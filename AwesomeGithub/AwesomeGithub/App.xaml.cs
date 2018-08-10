@@ -11,7 +11,7 @@ namespace AwesomeGithub
 		{
 			InitializeComponent();
 
-			MainPage = new MainPage();
+			//MainPage = 
 		}
 
 		protected override void OnStart ()

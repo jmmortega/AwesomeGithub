@@ -10,5 +10,12 @@ namespace AwesomeGithub.Base
 
 
         protected virtual void InitializeCommand() { }
+
+        public virtual void OnAppearing()
+        { }
+
+        public virtual void OnDisappearing()
+        { }
+                    
     }
 }

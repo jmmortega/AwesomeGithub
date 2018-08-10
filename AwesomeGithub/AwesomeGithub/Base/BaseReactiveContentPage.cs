@@ -16,6 +16,18 @@ namespace AwesomeGithub.Base
         }
         protected virtual void CreateBindings(Action<IDisposable> d)
         {}
-        
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            ViewModel.OnAppearing();
+        }
+
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+            ViewModel.OnDisappearing();
+        }
+
     }
 }

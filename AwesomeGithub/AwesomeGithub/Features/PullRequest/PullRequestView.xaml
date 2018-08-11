@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:base="clr-namespace:AwesomeGithub.Base"
              xmlns:me="clr-namespace:AwesomeGithub.Features.PullRequest"
+             xmlns:control="clr-namespace:AwesomeGithub.Control"
              x:Class="AwesomeGithub.Features.PullRequest.PullRequestView"
              x:TypeArguments="me:PullRequestViewModel">
 
@@ -27,7 +28,7 @@
                         <Grid Margin="16,8,0,8">
                             <StackLayout Margin="0,0,16,0">
                                 <Label Text="{Binding Title}" Style="{StaticResource LabelTitle}"/>
-                                <Label Text="{Binding Description}" Style="{StaticResource LabelDescription}"/>
+                                <control:LabelTLDR Text="{Binding Description}" Style="{StaticResource LabelDescription}"/>
 
                                 <StackLayout Orientation="Horizontal" Margin="0,0,16,8">
                                     <Image Source="{Binding User.Avatar}" HeightRequest="50" WidthRequest="50" Aspect="AspectFill"/>

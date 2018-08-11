@@ -3,10 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:base="clr-namespace:AwesomeGithub.Base"
              xmlns:me="clr-namespace:AwesomeGithub.Features.Main"
+             xmlns:control="clr-namespace:AwesomeGithub.Control"
              x:Class="AwesomeGithub.Features.Main.MainView"
              x:TypeArguments="me:MainViewModel">
 
-
+            
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
@@ -30,7 +31,7 @@
                             <StackLayout Grid.Column="0" Margin="0,0,16,0">
                                 <Label Text="{Binding RepositoryName}" Style="{StaticResource LabelTitle}"/>
 
-                                <Label Text="{Binding Description}" Style="{StaticResource LabelDescription}"/>
+                                <control:LabelTLDR   Text="{Binding Description}" Style="{StaticResource LabelDescription}"/>
 
                                 <StackLayout Orientation="Horizontal">
                                     <BoxView BackgroundColor="Orange" WidthRequest="20" HeightRequest="20"/>
@@ -43,7 +44,7 @@
                             </StackLayout>
 
                             <StackLayout Grid.Column="1" Margin="0,0,16,8">
-                                <Image Source="{Binding Avatar}" Aspect="AspectFill"
+                                <Image Source="{Binding Owner.Avatar}" Aspect="AspectFill"
                                        HeightRequest="50" WidthRequest="50"/>
 
                                 <Label Text="{Binding Owner.Login}" Style="{StaticResource LabelTitle}"/>

@@ -12,10 +12,7 @@ namespace AwesomeGithub.Model
 
         [JsonProperty("description")]
         public string Description { get; set; }
-
-        [JsonProperty("avatar_url")]
-        public string Avatar { get; set; }
-        
+                
         [JsonProperty("full_name")]
         public string FullName { get; set; }
 

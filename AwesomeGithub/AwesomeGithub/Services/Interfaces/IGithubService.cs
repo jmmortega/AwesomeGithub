@@ -12,6 +12,8 @@ namespace AwesomeGithub.Services.Interfaces
         [Get("repos/search/repositories?q=language:{language}&sort=stars&page=1")]
         Task<GithubRepositoryResult> SearchRepositories(string language);
 
+        [Get("repos/{pullRequestSuffix}/pulls")]
+        Task<List<GithubPullRequest>> RequestPullRequest(string pullRequestSuffix);
 
     }
 }

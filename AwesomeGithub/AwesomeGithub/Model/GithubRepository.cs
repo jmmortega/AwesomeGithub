@@ -27,5 +27,10 @@ namespace AwesomeGithub.Model
 
         [JsonProperty("stargazers_count")]
         public int StarsCount { get; set; }
+
+        [JsonProperty("owner")]
+        public GithubOwner Owner { get; set; }
+            
+
     }
 }

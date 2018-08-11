@@ -18,5 +18,8 @@
     <EmbeddedResource Update="Features\MasterDetail\MasterView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Features\PullRequest\PullRequestView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>

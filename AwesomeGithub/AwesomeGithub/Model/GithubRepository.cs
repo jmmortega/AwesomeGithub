@@ -15,10 +15,7 @@ namespace AwesomeGithub.Model
 
         [JsonProperty("avatar_url")]
         public string Avatar { get; set; }
-
-        [JsonProperty("name")]
-        public string Username { get; set; }
-
+        
         [JsonProperty("full_name")]
         public string FullName { get; set; }
 

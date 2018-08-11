@@ -13,7 +13,7 @@ namespace AwesomeGithub
 		{
 			InitializeComponent();
 
-            MainPage = new MasterDetailPage() { Master = new MasterView(), Detail = new MainView(), IsGestureEnabled = true };
+            MainPage = new MasterDetailPage() { Master = new MasterView(), Detail = new NavigationPage(new MainView()), IsGestureEnabled = true };
 		}
 
 		protected override void OnStart ()

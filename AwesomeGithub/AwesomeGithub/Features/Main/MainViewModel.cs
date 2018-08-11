@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Text;
 using Xamarin.Forms;
 using System.Reactive.Linq;
+using System.Threading.Tasks;
 
 namespace AwesomeGithub.Features.Main
 {
@@ -48,38 +49,54 @@ namespace AwesomeGithub.Features.Main
             githubService = RestService.For<IGithubService>(KeyValues.HostApiCall);
 
             Subscribe();
+
+            
         }
         
-        public override void OnAppearing()
+        public override async void OnAppearing()
         {
             MessagingCenter.Subscribe<MessageLanguageCode>(this, nameof(MessageLanguageCode), ChangeLanguageCode);
-                
+
+            await SearchRepositories();
+            ShowRepositories(SearchTerm);
+
             base.OnAppearing();
         }
 
         private void Subscribe()
         {
-            this.WhenAnyValue(v => v.SearchTerm)
+            this.WhenAnyValue(v => v.SearchTerm, v => v.repositoryResult)
+                .Where(x => x.Item2 != null)
                 .Throttle(TimeSpan.FromSeconds(3))
+                .Select(x => x.Item1)
                 .Subscribe(ShowRepositories);
         }
 
         private async void ChangeLanguageCode(MessageLanguageCode language)
         {
             languageCode = language.LanguageCode;
-
-            repositoryResult = await ExecuteInternetCallAsync<GithubRepositoryResult>(() => githubService.SearchRepositories(LanguageCode));
-
-
+            await SearchRepositories(languageCode);
             ShowRepositories(searchTerm);
+        }
+
+        private async Task SearchRepositories(string languageCode = "")
+        {            
+            repositoryResult = await ExecuteInternetCallAsync<GithubRepositoryResult>(() => githubService.SearchRepositories(LanguageCode));
         }
 
         private void ShowRepositories(string searchTerm)
         {
-            Repositories = repositoryResult.Items.Where(x => x.RepositoryName.ToLower().Contains(searchTerm.ToLower()) ||
-                                                        x.Username.ToLower().Contains(searchTerm.ToLower()))                                                        
+            if(!string.IsNullOrEmpty(searchTerm))
+            {
+                Repositories = repositoryResult.Items.Where(x => x.RepositoryName.ToLower().Contains(searchTerm.ToLower()) ||
+                                                        x.Owner.Login.ToLower().Contains(searchTerm.ToLower()))
                                                         .Take(KeyValues.MaxRepositoriesShowed)
                                                         .ToList();
+            }
+            else
+            {
+                Repositories = repositoryResult.Items.Take(KeyValues.MaxRepositoriesShowed).ToList();
+            }                                                
         }
 
         public override void OnDisappearing()

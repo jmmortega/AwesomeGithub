@@ -43,7 +43,7 @@
                             <StackLayout Grid.Column="1">
                                 <Image Source="{Binding Avatar}" Aspect="AspectFill" WidthRequest="50"/>
 
-                                <Label Text="{Binding Username}"/>
+                                <Label Text="{Binding Owner.Login}"/>
                                 <Label Text="{Binding FullName}"/>
                             </StackLayout>
                         </Grid>

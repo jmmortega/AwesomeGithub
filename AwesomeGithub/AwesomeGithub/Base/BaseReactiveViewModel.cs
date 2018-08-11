@@ -1,4 +1,5 @@
 ﻿using ReactiveUI;
+using Refit;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -26,7 +27,7 @@ namespace AwesomeGithub.Base
                 return await operation();
             }
             catch(Exception e)
-            {
+            {                                 
                 System.Diagnostics.Debug.WriteLine(e);
                 return default(T);
             }

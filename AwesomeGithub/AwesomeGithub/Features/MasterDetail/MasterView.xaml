@@ -4,7 +4,8 @@
              xmlns:base="clr-namespace:AwesomeGithub.Base"
              xmlns:me="clr-namespace:AwesomeGithub.Features.MasterDetail"
              x:Class="AwesomeGithub.Features.MasterDetail.MasterView"
-             x:TypeArguments="me:MasterViewModel">
+             x:TypeArguments="me:MasterViewModel"                              
+             Title="GitHub Awesome">
 
     <Grid>
         <Entry x:Name="EntryLanguageCode" />

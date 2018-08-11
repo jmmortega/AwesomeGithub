@@ -10,9 +10,10 @@ namespace AwesomeGithub.Features.PullRequest
     [XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class PullRequestView
 	{        
-        public PullRequestView(string pullSufix) : this()
+        public PullRequestView(Tuple<string,string> pullRequestParams) : this()
         {
-            ViewModel.PullRequestSufix = pullSufix;
+            ViewModel.UserName = pullRequestParams.Item1;
+            ViewModel.RepositoryName = pullRequestParams.Item2;
         }
 
 		public PullRequestView ()
@@ -41,11 +42,15 @@ namespace AwesomeGithub.Features.PullRequest
 
             d(listViewSelectedObservable.Subscribe(args =>
             {
-                var repository = (GithubPullRequest)args.EventArgs.SelectedItem;
+                if(args.EventArgs.SelectedItem != null)
+                {
+                    var repository = (GithubPullRequest)args.EventArgs.SelectedItem;
 
-                Device.OpenUri(new Uri(repository.Url));
+                    Device.OpenUri(new Uri(repository.Url));
 
-                (args.Sender as ListView).SelectedItem = null;
+                    (args.Sender as ListView).SelectedItem = null;
+                }
+                
             }));
         }
     }

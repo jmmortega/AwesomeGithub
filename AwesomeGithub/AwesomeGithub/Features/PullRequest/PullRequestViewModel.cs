@@ -15,13 +15,9 @@ namespace AwesomeGithub.Features.PullRequest
     {
         private readonly IGithubService githubService;
 
-        private string pullRequestSufix;
+        public string RepositoryName { get; set; }
 
-        public string PullRequestSufix
-        {
-            get => pullRequestSufix;
-            set => this.RaiseAndSetIfChanged(ref pullRequestSufix, value);
-        }
+        public string UserName { get; set; }
 
         private int openedPullRequests;
 
@@ -57,11 +53,19 @@ namespace AwesomeGithub.Features.PullRequest
         {
             base.OnAppearing();
 
-            if(!string.IsNullOrWhiteSpace(PullRequestSufix))
+            if(!string.IsNullOrWhiteSpace(RepositoryName))
             {
-                PullRequests = await githubService.RequestPullRequest(PullRequestSufix);
-                OpenedPullRequests = PullRequests.Where(x => x.State == "open").Count();
-                ClosedPullRequests = PullRequests.Where(x => x.State == "closed").Count(0);
+                try
+                {
+                    PullRequests = await githubService.RequestPullRequest(UserName, RepositoryName);
+                    OpenedPullRequests = PullRequests.Where(x => x.State == "open").Count();
+                    ClosedPullRequests = PullRequests.Where(x => x.State == "closed").Count();
+                }
+                catch(Exception e)
+                {
+                    
+                }
+                
             }                        
         }
     }

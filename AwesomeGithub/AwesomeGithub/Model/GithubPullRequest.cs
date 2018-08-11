@@ -22,7 +22,7 @@ namespace AwesomeGithub.Model
         [JsonProperty("state")]
         public string State { get; set; }
 
-        [JsonProperty("url")]
+        [JsonProperty("html_url")]
         public string Url { get; set; }
     }
 }

@@ -21,6 +21,9 @@ namespace AwesomeGithub.Droid
             base.OnCreate(bundle);
             ImageCircleRenderer.Init();
 
+            Plugin.Iconize.Iconize.With(new Plugin.Iconize.Fonts.FontAwesomeModule());
+            FormsPlugin.Iconize.Droid.IconControls.Init(Resource.Id.toolbar, Resource.Id.tabMode);
+
             global::Xamarin.Forms.Forms.Init(this, bundle);
             LoadApplication(new App());
         }

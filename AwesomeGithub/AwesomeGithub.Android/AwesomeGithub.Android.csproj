@@ -51,6 +51,12 @@
     <PackageReference Include="Refit">
       <Version>4.6.30</Version>
     </PackageReference>
+    <PackageReference Include="Xam.FormsPlugin.Iconize">
+      <Version>1.0.10</Version>
+    </PackageReference>
+    <PackageReference Include="Xam.Plugin.Iconize.FontAwesome">
+      <Version>1.0.10</Version>
+    </PackageReference>
     <PackageReference Include="Xam.Plugins.Forms.ImageCircle">
       <Version>3.0.0.5</Version>
     </PackageReference>

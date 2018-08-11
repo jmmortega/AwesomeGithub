@@ -4,6 +4,7 @@
              xmlns:base="clr-namespace:AwesomeGithub.Base"
              xmlns:me="clr-namespace:AwesomeGithub.Features.PullRequest"
              xmlns:control="clr-namespace:AwesomeGithub.Control"
+             xmlns:imgCircle="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin"
              x:Class="AwesomeGithub.Features.PullRequest.PullRequestView"
              x:TypeArguments="me:PullRequestViewModel">
 
@@ -31,7 +32,8 @@
                                 <control:LabelTLDR Text="{Binding Description}" Style="{StaticResource LabelDescription}"/>
 
                                 <StackLayout Orientation="Horizontal" Margin="0,0,16,8">
-                                    <Image Source="{Binding User.Avatar}" HeightRequest="50" WidthRequest="50" Aspect="AspectFill"/>
+                                    <imgCircle:CircleImage Source="{Binding User.Avatar}" 
+                                                           WidthRequest="25" Aspect="AspectFit"/>
 
                                     <StackLayout>
                                         <Label Text="{Binding User.Login}" Style="{StaticResource LabelTitle}"/>

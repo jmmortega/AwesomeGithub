@@ -19,5 +19,8 @@ namespace AwesomeGithub.Model
         [JsonProperty("created_at")]
         public DateTime PullRequestDate { get; set; }
 
+        [JsonProperty("state")]
+        public string State { get; set; }
+
     }
 }

@@ -6,6 +6,8 @@ using ReactiveUI;
 using AwesomeGithub.Services.Interfaces;
 using Refit;
 using AwesomeGithub.Common;
+using AwesomeGithub.Model;
+using System.Linq;
 
 namespace AwesomeGithub.Features.PullRequest
 {
@@ -19,7 +21,31 @@ namespace AwesomeGithub.Features.PullRequest
         {
             get => pullRequestSufix;
             set => this.RaiseAndSetIfChanged(ref pullRequestSufix, value);
-        }                
+        }
+
+        private int openedPullRequests;
+
+        public int OpenedPullRequests
+        {
+            get => openedPullRequests;
+            set => this.RaiseAndSetIfChanged(ref openedPullRequests, value);
+        }
+
+        private int closedPullRequests;
+
+        public int ClosedPullRequests
+        {
+            get => closedPullRequests;
+            set => this.RaiseAndSetIfChanged(ref closedPullRequests, value);
+        }
+
+        private List<GithubPullRequest> pullRequests;
+
+        public List<GithubPullRequest> PullRequests
+        {
+            get => pullRequests;
+            set => this.RaiseAndSetIfChanged(ref pullRequests, value);
+        }
 
         public PullRequestViewModel()
         {
@@ -27,11 +53,16 @@ namespace AwesomeGithub.Features.PullRequest
         }
 
 
-        public override void OnAppearing()
+        public override async void OnAppearing()
         {
             base.OnAppearing();
 
-            githubService.
+            if(!string.IsNullOrWhiteSpace(PullRequestSufix))
+            {
+                PullRequests = await githubService.RequestPullRequest(PullRequestSufix);
+                OpenedPullRequests = PullRequests.Where(x => x.State == "open").Count();
+                ClosedPullRequests = PullRequests.Where(x => x.State == "closed").Count(0);
+            }                        
         }
     }
 }

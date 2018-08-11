@@ -5,6 +5,7 @@ using System;
 using System.Reactive.Linq;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using AwesomeGithub.Extension;
 
 namespace AwesomeGithub.Features.Main
 {
@@ -37,14 +38,10 @@ namespace AwesomeGithub.Features.Main
             {
                 var repository = (GithubRepository)args.EventArgs.SelectedItem;
 
-                Navigation.PushAsync(new PullRequestView())
-
+                Navigation.PushAsync(new PullRequestView(repository.PullRequestParams()));
 
                 (args.Sender as ListView).SelectedItem = null;
-            }));
-                
-               
-
+            }));                               
         }        
     }
 }

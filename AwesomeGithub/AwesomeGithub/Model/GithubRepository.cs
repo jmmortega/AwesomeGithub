@@ -29,7 +29,7 @@ namespace AwesomeGithub.Model
         public int StarsCount { get; set; }
 
         [JsonProperty("owner")]
-        public GithubOwner Owner { get; set; }
+        public GithubUser Owner { get; set; }
             
 
     }

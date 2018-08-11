@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -6,5 +7,17 @@ namespace AwesomeGithub.Model
 {
     public class GithubPullRequest
     {
+        [JsonProperty("title")]
+        public string Title { get; set; }
+
+        [JsonProperty("body")]
+        public string Description { get; set; }
+
+        [JsonProperty("user")]
+        public GithubUser User { get; set; }
+
+        [JsonProperty("created_at")]
+        public DateTime PullRequestDate { get; set; }
+
     }
 }

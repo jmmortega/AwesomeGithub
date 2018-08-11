@@ -13,29 +13,35 @@
         </Grid.RowDefinitions>
 
 
-        <StackLayout Grid.Row="0" Orientation="Horizontal">
-            <Label x:Name="LabelPullRequestOpened"/>
-            <Label Text="/"/>
-            <Label x:Name="LabelPullRequestClosed"/>
+        <StackLayout Grid.Row="0" Orientation="Horizontal" BackgroundColor="{StaticResource HeaderBox}"
+                     Margin="16,0,0,0">
+            <Label x:Name="LabelPullRequestOpened" VerticalOptions="Center" Style="{StaticResource LabelStatus}" TextColor="{StaticResource HighLightColor}"/>
+            <Label Text="/" VerticalOptions="Center"/>
+            <Label x:Name="LabelPullRequestClosed" VerticalOptions="Center" Style="{StaticResource LabelStatus}"/>
         </StackLayout>
 
-        <ListView x:Name="ListViewPullRequests" Grid.Row="1">
+        <ListView x:Name="ListViewPullRequests" Grid.Row="1" HasUnevenRows="True" SeparatorVisibility="None">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
-                        <StackLayout>
-                            <Label Text="{Binding Title}"/>
-                            <Label Text="{Binding Description}"/>
+                        <Grid Margin="16,8,0,8">
+                            <StackLayout Margin="0,0,16,0">
+                                <Label Text="{Binding Title}" Style="{StaticResource LabelTitle}"/>
+                                <Label Text="{Binding Description}" Style="{StaticResource LabelDescription}"/>
 
-                            <StackLayout Orientation="Horizontal">
-                                <Image Source="{Binding User.Avatar}"/>
+                                <StackLayout Orientation="Horizontal" Margin="0,0,16,8">
+                                    <Image Source="{Binding User.Avatar}" HeightRequest="50" WidthRequest="50" Aspect="AspectFill"/>
 
-                                <StackLayout>
-                                    <Label Text="{Binding User.Login}"/>
-                                    <Label Text="{Binding PullRequestDate}"/>
+                                    <StackLayout>
+                                        <Label Text="{Binding User.Login}" Style="{StaticResource LabelTitle}"/>
+                                        <Label Text="{Binding PullRequestDate}" Style="{StaticResource LabelDescription}"/>
+                                    </StackLayout>
                                 </StackLayout>
                             </StackLayout>
-                        </StackLayout>
+                            
+                            <BoxView BackgroundColor="{StaticResource SeparatorColor}" HeightRequest="1" HorizontalOptions="FillAndExpand"
+                                     VerticalOptions="End"/>
+                        </Grid>
                     </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>

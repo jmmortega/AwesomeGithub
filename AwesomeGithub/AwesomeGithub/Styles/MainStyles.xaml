@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AwesomeGithub.Styles.MainStyles">
+    <ContentPage.Resources>
+        
+        <Style x:Key="LabelTitle" TargetType="Label">
+            <Setter Property="TextColor" Value="{StaticResource HeaderLabelColor}"/>
+            <Setter Property="FontSize" Value="15"/>
+        </Style>
+
+        <Style x:Key="LabelDescription" TargetType="Label">
+            <Setter Property="TextColor" Value="{StaticResource SubLabelColor}"/>
+            <Setter Property="FontSize" Value="10"/>
+        </Style>
+
+        <Style x:Key="LabelCount" TargetType="Label">
+            <Setter Property="TextColor" Value="{StaticResource HighLightColor}"/>
+            <Setter Property="FontSize" Value="15"/>
+        </Style>
+
+        <Style x:Key="LabelStatus" TargetType="Label">
+            <Setter Property="FontSize" Value="10"/>
+        </Style>
+    </ContentPage.Resources>
+</ContentPage>

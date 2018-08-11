@@ -13,39 +13,46 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Entry x:Name="EntrySearchBox" Grid.Row="0"/>
+        <Grid Grid.Row="0" BackgroundColor="{StaticResource HeaderBox}">
+            <Entry x:Name="EntrySearchBox" Margin="8,0,8,0"/>
+        </Grid>
 
-        <ListView x:Name="ListViewRepositories" Grid.Row="1">
+        <ListView x:Name="ListViewRepositories" Grid.Row="1" HasUnevenRows="True" SeparatorVisibility="None">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
-                        <Grid>
+                        <Grid Margin="16,8,0,8" ColumnSpacing="16">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="7*"/>
-                                <ColumnDefinition Width="3*"/>
+                                <ColumnDefinition Width="6*"/>
+                                <ColumnDefinition Width="4*"/>
                             </Grid.ColumnDefinitions>
 
-                            <StackLayout Grid.Column="0">
-                                <Label Text="{Binding Name}"/>
+                            <StackLayout Grid.Column="0" Margin="0,0,16,0">
+                                <Label Text="{Binding RepositoryName}" Style="{StaticResource LabelTitle}"/>
 
-                                <Label Text="{Binding Description}"/>
+                                <Label Text="{Binding Description}" Style="{StaticResource LabelDescription}"/>
 
                                 <StackLayout Orientation="Horizontal">
                                     <BoxView BackgroundColor="Orange" WidthRequest="20" HeightRequest="20"/>
-                                    <Label Text="{Binding ForksCount}"/>
+                                    <Label Text="{Binding ForksCount}" Style="{StaticResource LabelCount}"/>
 
                                     <BoxView BackgroundColor="Orange" WidthRequest="20" HeightRequest="20"/>
-                                    <Label Text="{Binding StarsCount}"/>
+                                    <Label Text="{Binding StarsCount}" Style="{StaticResource LabelCount}"/>
 
                                 </StackLayout>
                             </StackLayout>
 
-                            <StackLayout Grid.Column="1">
-                                <Image Source="{Binding Avatar}" Aspect="AspectFill" WidthRequest="50"/>
+                            <StackLayout Grid.Column="1" Margin="0,0,16,8">
+                                <Image Source="{Binding Avatar}" Aspect="AspectFill"
+                                       HeightRequest="50" WidthRequest="50"/>
 
-                                <Label Text="{Binding Owner.Login}"/>
-                                <Label Text="{Binding FullName}"/>
+                                <Label Text="{Binding Owner.Login}" Style="{StaticResource LabelTitle}"/>
+                                <Label Text="{Binding FullName}" Style="{StaticResource LabelDescription}"/>
                             </StackLayout>
+
+                            <BoxView BackgroundColor="{StaticResource SeparatorColor}" 
+                                     HeightRequest="1" VerticalOptions="End"
+                                     Grid.Column="0" Grid.ColumnSpan="2"/>
                         </Grid>
                     </ViewCell>
                 </DataTemplate>

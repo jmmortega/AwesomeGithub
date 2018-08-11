@@ -1,5 +1,6 @@
 using AwesomeGithub.Features.Main;
 using AwesomeGithub.Features.MasterDetail;
+using AwesomeGithub.Styles;
 using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -13,10 +14,21 @@ namespace AwesomeGithub
 		{
 			InitializeComponent();
 
+            LoadStyles();
+
             MainPage = new MasterDetailPage() { Master = new MasterView(), Detail = new NavigationPage(new MainView()), IsGestureEnabled = true };
 		}
 
-		protected override void OnStart ()
+        private void LoadStyles()
+        {
+            var mainStyles = new MainStyles();
+            foreach(var resource in mainStyles.Resources)
+            {
+                App.Current.Resources.Add(resource.Key, resource.Value);
+            }
+        }
+
+        protected override void OnStart ()
 		{
 			// Handle when your app starts
 		}

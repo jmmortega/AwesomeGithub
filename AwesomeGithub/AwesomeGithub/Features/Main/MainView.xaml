@@ -38,10 +38,10 @@
                                     <control:LabelTLDR  Text="{Binding Description}" Style="{StaticResource LabelDescription}"/>
 
                                     <StackLayout Orientation="Horizontal">
-                                        <iconize:IconLabel FontSize="18" Text="fa-code-fork" TextColor="{StaticResource HighLightColor}"/>
+                                        <iconize:IconImage HeightRequest="18" Icon="fa-code-fork" IconColor="{StaticResource HighLightColor}"/>
                                         <Label Text="{Binding ForksCount}" Style="{StaticResource LabelCount}"/>
 
-                                        <iconize:IconLabel FontSize="18" Text="fa-star" TextColor="{StaticResource HighLightColor}"/>
+                                        <iconize:IconImage HeightRequest="18" Icon="fa-star" IconColor="{StaticResource HighLightColor}"/>
                                         <Label Text="{Binding StarsCount}" Style="{StaticResource LabelCount}"/>
 
                                     </StackLayout>

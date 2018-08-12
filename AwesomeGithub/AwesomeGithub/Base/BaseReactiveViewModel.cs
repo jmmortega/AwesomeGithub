@@ -9,7 +9,13 @@ namespace AwesomeGithub.Base
 {
     public abstract class BaseReactiveViewModel : ReactiveObject
     {
+        private bool isBusy = false;
 
+        public bool IsBusy
+        {
+            get => isBusy;
+            set => this.RaiseAndSetIfChanged(ref isBusy, value);
+        }
 
         protected virtual void InitializeCommand() { }
 
@@ -18,6 +24,8 @@ namespace AwesomeGithub.Base
 
         public virtual void OnDisappearing()
         { }
+
+        
                     
 
         protected async Task<T> ExecuteInternetCallAsync<T>(Func<Task<T>> operation)

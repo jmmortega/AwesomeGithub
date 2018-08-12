@@ -108,10 +108,13 @@ namespace AwesomeGithub.Features.Main
         }
 
         private async Task SearchRepositories(string languageCode = "", int page = 1)
-        {            
+        {
+            Device.BeginInvokeOnMainThread(() => IsBusy = true);
             repositoryResult = await ExecuteInternetCallAsync<GithubRepositoryResult>(() => githubService.SearchRepositories(LanguageCode, page));
 
             allRepositories.AddRange(repositoryResult.Items.Select(x => new Tuple<long, GithubRepository>(x.Id, x)));
+
+            Device.BeginInvokeOnMainThread(() => IsBusy = false);
         }
 
         private void ShowRepositories(string searchTerm)

@@ -32,7 +32,9 @@ namespace AwesomeGithub.Features.PullRequest
                 
             d(this.OneWayBind(ViewModel, vm => vm.PullRequests, v => v.ListViewPullRequests.ItemsSource));
 
-            Subscribe(d);
+            d(this.OneWayBind(ViewModel, vm => vm.IsBusy, v => v.GridWaiting.IsVisible));
+
+            ListSelectedObservable(d);
         }
 
         private string FormatOpened(int value) => $"{value} opened";
@@ -40,7 +42,7 @@ namespace AwesomeGithub.Features.PullRequest
         private string FormatClosed(int value) => $"{value} closed";
         
 
-        private void Subscribe(Action<IDisposable> d)
+        private void ListSelectedObservable(Action<IDisposable> d)
         {
             var listViewSelectedObservable = Observable.FromEventPattern<EventHandler<SelectedItemChangedEventArgs>, SelectedItemChangedEventArgs>(
                 h => ListViewPullRequests.ItemSelected += h,
@@ -60,5 +62,22 @@ namespace AwesomeGithub.Features.PullRequest
                 
             }));
         }
+
+        /*
+        private void ListViewPaginationObservable(Action<IDisposable> d)
+        {
+            var paginationObservable = Observable.FromEventPattern<EventHandler<ItemVisibilityEventArgs>, ItemVisibilityEventArgs>(
+                h => ListViewRepositories.ItemAppearing += h,
+                h => ListViewRepositories.ItemAppearing -= h)
+                .Where(x => x != null)
+                .Select(x => (GithubRepository)x.EventArgs.Item);
+
+            d(paginationObservable.Subscribe(args =>
+            {
+                ViewModel.RequestNewPage(args);
+            }));
+
+        }
+        */
     }
 }

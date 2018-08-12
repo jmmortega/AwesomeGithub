@@ -24,6 +24,7 @@ namespace AwesomeGithub.Features.Main
 
             d(this.Bind(ViewModel, vm => vm.SearchTerm, v => v.EntrySearchBox.Text));
             d(this.OneWayBind(ViewModel, vm => vm.Repositories, v => v.ListViewRepositories.ItemsSource));
+            d(this.OneWayBind(ViewModel, vm => vm.IsBusy, v => v.GridWaiting.IsVisible));
 
             ListViewSelectedObservable(d);
             ListViewPaginationObservable(d);

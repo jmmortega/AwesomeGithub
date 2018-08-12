@@ -55,17 +55,11 @@ namespace AwesomeGithub.Features.PullRequest
 
             if(!string.IsNullOrWhiteSpace(RepositoryName))
             {
-                try
-                {
-                    PullRequests = await githubService.RequestPullRequest(UserName, RepositoryName);
-                    OpenedPullRequests = PullRequests.Where(x => x.State == "open").Count();
-                    ClosedPullRequests = PullRequests.Where(x => x.State == "closed").Count();
-                }
-                catch(Exception e)
-                {
-                    
-                }
-                
+                IsBusy = true;
+                PullRequests = await githubService.RequestPullRequest(UserName, RepositoryName);
+                OpenedPullRequests = PullRequests.Where(x => x.State == "open").Count();
+                ClosedPullRequests = PullRequests.Where(x => x.State == "closed").Count();
+                IsBusy = false;
             }                        
         }
     }

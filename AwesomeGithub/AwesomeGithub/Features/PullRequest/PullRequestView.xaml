@@ -52,6 +52,10 @@
             </ListView.ItemTemplate>
         </ListView>
 
+        <Grid x:Name="GridWaiting" Grid.Row="0" Grid.RowSpan="2" Opacity="0.3" BackgroundColor="{StaticResource SeparatorColor}">
+            <ActivityIndicator IsRunning="True" HorizontalOptions="Center" VerticalOptions="Center" HeightRequest="50" Color="{StaticResource ApplicationColor}"/>
+        </Grid>
+
     </Grid>
     
 </base:BaseReactiveContentPage>

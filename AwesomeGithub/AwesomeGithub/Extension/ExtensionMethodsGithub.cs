@@ -11,6 +11,6 @@ namespace AwesomeGithub.Extension
         {
             //Also if not working you can get  "pulls_url" field from Json
             return new Tuple<string, string>(githubRepository.Owner.Login, githubRepository.RepositoryName);
-        }
+        }        
     }
 }

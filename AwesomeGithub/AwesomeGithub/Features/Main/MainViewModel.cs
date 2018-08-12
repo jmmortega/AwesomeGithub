@@ -7,13 +7,12 @@ using ReactiveUI;
 using Refit;
 using System;
 using System.Linq;
-using System.Collections.Generic;
-using System.Text;
 using Xamarin.Forms;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using AwesomeGithub.Extension;
+using System.Collections.Generic;
 
 namespace AwesomeGithub.Features.Main
 {
@@ -22,6 +21,8 @@ namespace AwesomeGithub.Features.Main
         private readonly IGithubService githubService;
 
         private GithubRepositoryResult repositoryResult;
+        private int currentPage = 1;
+        private bool newRepositoriesIncoming;
 
         private string languageCode;
         public string LanguageCode
@@ -38,6 +39,8 @@ namespace AwesomeGithub.Features.Main
             set => this.RaiseAndSetIfChanged(ref searchTerm, value);
         }
 
+        private Dictionary<long, GithubRepository> allRepositories = new Dictionary<long, GithubRepository>();
+
         private ObservableCollection<GithubRepository> repositories = new ObservableCollection<GithubRepository>();
 
         public ObservableCollection<GithubRepository> Repositories
@@ -50,9 +53,7 @@ namespace AwesomeGithub.Features.Main
         {
             githubService = RestService.For<IGithubService>(KeyValues.HostApiCall);
 
-            Subscribe();
-
-            
+            Subscribe();            
         }
         
         public override async void OnAppearing()
@@ -65,13 +66,38 @@ namespace AwesomeGithub.Features.Main
             base.OnAppearing();
         }
 
+        public override void OnDisappearing()
+        {
+            MessagingCenter.Unsubscribe<MessageLanguageCode>(this, nameof(MessageLanguageCode));
+
+            base.OnDisappearing();
+        }
+
+        public async void RequestNewPage(GithubRepository item)
+        {
+            var indexElement = Repositories.IndexOf(item);
+
+            if(indexElement == Repositories.Count -5 && newRepositoriesIncoming == false)
+            {
+                newRepositoriesIncoming = true;
+                currentPage++;
+                await SearchRepositories(languageCode, currentPage);                
+                ShowRepositories(searchTerm);
+                newRepositoriesIncoming = false;
+            }
+        }
+
         private void Subscribe()
         {
             this.WhenAnyValue(v => v.SearchTerm, v => v.repositoryResult)
                 .Where(x => x.Item2 != null)
                 .Throttle(TimeSpan.FromSeconds(1))
                 .Select(x => x.Item1)
-                .Subscribe(ShowRepositories);
+                .Subscribe((searchTerm) =>
+                {
+                    Repositories.Clear();
+                    ShowRepositories(searchTerm);
+                });
         }
 
         private async void ChangeLanguageCode(MessageLanguageCode language)
@@ -81,37 +107,32 @@ namespace AwesomeGithub.Features.Main
             ShowRepositories(searchTerm);
         }
 
-        private async Task SearchRepositories(string languageCode = "")
+        private async Task SearchRepositories(string languageCode = "", int page = 1)
         {            
-            repositoryResult = await ExecuteInternetCallAsync<GithubRepositoryResult>(() => githubService.SearchRepositories(LanguageCode));
+            repositoryResult = await ExecuteInternetCallAsync<GithubRepositoryResult>(() => githubService.SearchRepositories(LanguageCode, page));
+
+            allRepositories.AddRange(repositoryResult.Items.Select(x => new Tuple<long, GithubRepository>(x.Id, x)));
         }
 
         private void ShowRepositories(string searchTerm)
-        {
-            Repositories.Clear();
-
+        {            
             Device.BeginInvokeOnMainThread(() =>
             {
                 if (!string.IsNullOrEmpty(searchTerm))
                 {
-                    Repositories.AddRange(repositoryResult.Items.Where(x => x.RepositoryName.ToLower().Contains(searchTerm.ToLower()) ||
+                    Repositories.AddRange(allRepositories.Select(x => x.Value).Where(x => x.RepositoryName.ToLower().Contains(searchTerm.ToLower()) ||
                                                             x.Owner.Login.ToLower().Contains(searchTerm.ToLower()))
-                                                            .Take(KeyValues.MaxRepositoriesShowed)
+                                                            .Where(x => !Repositories.Contains(x))
+                                                            .Take(KeyValues.MaxRepositoriesShowed)                                                            
                                                             .ToList());
                 }
                 else
                 {
-                    Repositories.AddRange(repositoryResult.Items.Take(KeyValues.MaxRepositoriesShowed).ToList());
+                    Repositories.AddRange(allRepositories.Values.Where(x => !Repositories.Contains(x))
+                                                                .Take(KeyValues.MaxRepositoriesShowed).ToList());
                 }
             });
                         
-        }
-
-        public override void OnDisappearing()
-        {
-            MessagingCenter.Unsubscribe<MessageLanguageCode>(this, nameof(MessageLanguageCode));
-
-            base.OnDisappearing();
-        }
+        }        
     }
 }

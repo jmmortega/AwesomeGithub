@@ -26,14 +26,31 @@ namespace AwesomeGithub.Features.Main
             d(this.OneWayBind(ViewModel, vm => vm.Repositories, v => v.ListViewRepositories.ItemsSource));
 
             ListViewSelectedObservable(d);
+            ListViewPaginationObservable(d);
         }
 
+        private void ListViewPaginationObservable(Action<IDisposable> d)
+        {
+            var paginationObservable = Observable.FromEventPattern<EventHandler<ItemVisibilityEventArgs>, ItemVisibilityEventArgs>(
+                h => ListViewRepositories.ItemAppearing += h,
+                h => ListViewRepositories.ItemAppearing -= h)
+                .Where(x => x != null)
+                .Select(x => (GithubRepository)x.EventArgs.Item);
+
+            d(paginationObservable.Subscribe(args =>
+            {
+                ViewModel.RequestNewPage(args);
+            }));
+            
+        }
+        
         private void ListViewSelectedObservable(Action<IDisposable> d)
-        {            
+        {
             var listViewSelectedObservable = Observable.FromEventPattern<EventHandler<SelectedItemChangedEventArgs>, SelectedItemChangedEventArgs>(
                 h => ListViewRepositories.ItemSelected += h,
                 h => ListViewRepositories.ItemSelected -= h)
                 .Where(x => x != null);
+                
 
             d(listViewSelectedObservable.Subscribe(args =>
             {

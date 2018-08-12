@@ -14,5 +14,16 @@ namespace AwesomeGithub.Extension
                 collection.Add(element);
             }
         }
+
+        public static void AddRange<K, T>(this Dictionary<K, T> collection, IEnumerable<Tuple<K, T>> collectionToAdd)
+        {
+            foreach(var tuple in collectionToAdd)
+            {
+                if(!collection.ContainsKey(tuple.Item1))
+                {
+                    collection.Add(tuple.Item1, tuple.Item2); 
+                }
+            }
+        }
     }
 }

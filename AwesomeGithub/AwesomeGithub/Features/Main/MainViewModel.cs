@@ -12,6 +12,8 @@ using System.Text;
 using Xamarin.Forms;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
+using System.Collections.ObjectModel;
+using AwesomeGithub.Extension;
 
 namespace AwesomeGithub.Features.Main
 {
@@ -36,9 +38,9 @@ namespace AwesomeGithub.Features.Main
             set => this.RaiseAndSetIfChanged(ref searchTerm, value);
         }
 
-        private List<GithubRepository> repositories;
+        private ObservableCollection<GithubRepository> repositories = new ObservableCollection<GithubRepository>();
 
-        public List<GithubRepository> Repositories
+        public ObservableCollection<GithubRepository> Repositories
         {
             get => repositories;
             set => this.RaiseAndSetIfChanged(ref repositories, value);
@@ -67,7 +69,7 @@ namespace AwesomeGithub.Features.Main
         {
             this.WhenAnyValue(v => v.SearchTerm, v => v.repositoryResult)
                 .Where(x => x.Item2 != null)
-                .Throttle(TimeSpan.FromSeconds(3))
+                .Throttle(TimeSpan.FromSeconds(1))
                 .Select(x => x.Item1)
                 .Subscribe(ShowRepositories);
         }
@@ -86,17 +88,23 @@ namespace AwesomeGithub.Features.Main
 
         private void ShowRepositories(string searchTerm)
         {
-            if(!string.IsNullOrEmpty(searchTerm))
+            Repositories.Clear();
+
+            Device.BeginInvokeOnMainThread(() =>
             {
-                Repositories = repositoryResult.Items.Where(x => x.RepositoryName.ToLower().Contains(searchTerm.ToLower()) ||
-                                                        x.Owner.Login.ToLower().Contains(searchTerm.ToLower()))
-                                                        .Take(KeyValues.MaxRepositoriesShowed)
-                                                        .ToList();
-            }
-            else
-            {
-                Repositories = repositoryResult.Items.Take(KeyValues.MaxRepositoriesShowed).ToList();
-            }                                                
+                if (!string.IsNullOrEmpty(searchTerm))
+                {
+                    Repositories.AddRange(repositoryResult.Items.Where(x => x.RepositoryName.ToLower().Contains(searchTerm.ToLower()) ||
+                                                            x.Owner.Login.ToLower().Contains(searchTerm.ToLower()))
+                                                            .Take(KeyValues.MaxRepositoriesShowed)
+                                                            .ToList());
+                }
+                else
+                {
+                    Repositories.AddRange(repositoryResult.Items.Take(KeyValues.MaxRepositoriesShowed).ToList());
+                }
+            });
+                        
         }
 
         public override void OnDisappearing()

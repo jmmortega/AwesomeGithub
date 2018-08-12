@@ -7,11 +7,11 @@
              x:TypeArguments="me:MasterViewModel"                              
              Title="GitHub Awesome">
 
-    <Grid>
+    <StackLayout>
         <Entry x:Name="EntryLanguageCode" />
 
 
-        <BoxView BackgroundColor="Silver" HeightRequest="1" HorizontalOptions="FillAndExpand"/>
-    </Grid>
-    
+        <BoxView BackgroundColor="Silver" HeightRequest="1" HorizontalOptions="FillAndExpand" />
+    </StackLayout>
+
 </base:BaseReactiveContentPage>

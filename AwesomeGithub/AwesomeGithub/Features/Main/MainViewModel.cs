@@ -62,7 +62,9 @@ namespace AwesomeGithub.Features.Main
 
             allRepositories = cacheService.GetRepositories().ToDictionary(x => x.Id);
             ShowRepositories(SearchTerm);
+            Device.BeginInvokeOnMainThread(() => IsBusy = true && allRepositories.Count == 0);
             await SearchRepositories();
+            Device.BeginInvokeOnMainThread(() => IsBusy = false);
             ShowRepositories(SearchTerm);
 
 
@@ -84,7 +86,9 @@ namespace AwesomeGithub.Features.Main
             {
                 newRepositoriesIncoming = true;
                 currentPage++;
-                await SearchRepositories(languageCode, currentPage);                
+                Device.BeginInvokeOnMainThread(() => IsBusy = true);
+                await SearchRepositories(languageCode, currentPage);
+                Device.BeginInvokeOnMainThread(() => IsBusy = false);
                 ShowRepositories(searchTerm);
                 newRepositoriesIncoming = false;
             }
@@ -104,20 +108,17 @@ namespace AwesomeGithub.Features.Main
         private async void ChangeLanguageCode(MessageLanguageCode language)
         {
             languageCode = language.LanguageCode;
+            Device.BeginInvokeOnMainThread(() => IsBusy = true);
             await SearchRepositories(languageCode);
+            Device.BeginInvokeOnMainThread(() => IsBusy = false);
             ShowRepositories(searchTerm);
         }
 
         private async Task SearchRepositories(string languageCode = "", int page = 1)
-        {
-            Device.BeginInvokeOnMainThread(() => IsBusy = true);
+        {                        
             repositoryResult = await ExecuteInternetCallAsync<GithubRepositoryResult>(() => githubService.SearchRepositories(LanguageCode, page));
-
             allRepositories.AddRange(repositoryResult.Items.Select(x => new Tuple<long, GithubRepository>(x.Id, x)));
-
-            cacheService.AddRepositories(allRepositories.Select(x => x.Value).ToList());
-
-            Device.BeginInvokeOnMainThread(() => IsBusy = false);
+            cacheService.AddRepositories(allRepositories.Select(x => x.Value).ToList());            
         }
 
         private void ShowRepositories(string searchTerm)

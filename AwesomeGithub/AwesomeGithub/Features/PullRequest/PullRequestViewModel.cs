@@ -64,13 +64,16 @@ namespace AwesomeGithub.Features.PullRequest
             base.OnAppearing();
 
             PullRequests.AddRange(cacheService.GetPullRequests(RepositoryId));
+            CountPullRequestState();
 
             if(!string.IsNullOrWhiteSpace(RepositoryName))
             {
+                IsBusy = true && PullRequests.Count == 0;
                 var prs = (await RequestPullRequests());
                 PullRequests.Clear();
                 PullRequests.AddRange(prs.Where(x => !PullRequests.Contains(x)));                
                 CountPullRequestState();
+                IsBusy = false;
             }                        
         }
         
@@ -82,10 +85,12 @@ namespace AwesomeGithub.Features.PullRequest
             {
                 newPullRequestsIncoming = true;
                 currentPage++;
+                IsBusy = true;
                 var newPRs = await RequestPullRequests(currentPage);
+                IsBusy = false;
 
                 //Maybe there not more PR's for this Repo.
-                if(newPRs.Count == 0)
+                if (newPRs.Count == 0)
                 {
                     completed = true;
                 }
@@ -104,11 +109,9 @@ namespace AwesomeGithub.Features.PullRequest
         }
 
         private async Task<List<GithubPullRequest>> RequestPullRequests(int page = 1)
-        {
-            IsBusy = true;
+        {            
             var pullRequests = await githubService.RequestPullRequest(UserName, RepositoryName, page);                                                
-            IsBusy = false;
-
+            
             return pullRequests;
         }
     }

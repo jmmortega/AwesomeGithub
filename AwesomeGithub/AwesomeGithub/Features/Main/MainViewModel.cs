@@ -89,10 +89,8 @@ namespace AwesomeGithub.Features.Main
 
         private void Subscribe()
         {
-            this.WhenAnyValue(v => v.SearchTerm, v => v.repositoryResult)
-                .Where(x => x.Item2 != null)
-                .Throttle(TimeSpan.FromSeconds(1))
-                .Select(x => x.Item1)
+            this.WhenAnyValue(v => v.SearchTerm)                
+                .Throttle(TimeSpan.FromSeconds(1))                
                 .Subscribe((searchTerm) =>
                 {
                     Repositories.Clear();

@@ -24,5 +24,12 @@ namespace AwesomeGithub.Model
 
         [JsonProperty("html_url")]
         public string Url { get; set; }
+
+
+        [JsonIgnore]
+        public bool IsClosed
+        {
+            get => State == "closed";
+        }
     }
 }

@@ -33,7 +33,7 @@ namespace AwesomeGithub.Features.PullRequest
             d(this.OneWayBind(ViewModel, vm => vm.PullRequests, v => v.ListViewPullRequests.ItemsSource));
 
             d(this.OneWayBind(ViewModel, vm => vm.IsBusy, v => v.GridWaiting.IsVisible));
-
+            
             ListSelectedObservable(d);
             ListViewPaginationObservable(d);
         }

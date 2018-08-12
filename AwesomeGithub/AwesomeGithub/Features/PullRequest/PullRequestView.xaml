@@ -5,6 +5,7 @@
              xmlns:me="clr-namespace:AwesomeGithub.Features.PullRequest"
              xmlns:control="clr-namespace:AwesomeGithub.Control"
              xmlns:imgCircle="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin"
+             xmlns:iconize="clr-namespace:FormsPlugin.Iconize;assembly=FormsPlugin.Iconize"
              x:Class="AwesomeGithub.Features.PullRequest.PullRequestView"
              x:TypeArguments="me:PullRequestViewModel">
 
@@ -43,7 +44,11 @@
                                     </StackLayout>
                                 </StackLayout>
                             </StackLayout>
-                            
+
+                            <iconize:IconImage x:Name="ImageClosed" HeightRequest="18" Icon="fa-times" IconColor="{StaticResource HighLightColor}"
+                                               HorizontalOptions="End" IsVisible="{Binding IsClosed}" VerticalOptions="Start"
+                                               Margin="0,0,8,0"/>
+
                             <BoxView BackgroundColor="{StaticResource SeparatorColor}" HeightRequest="1" HorizontalOptions="FillAndExpand"
                                      VerticalOptions="End"/>
                         </Grid>

@@ -3,10 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="AwesomeGithub.App">
 	<Application.Resources>
-        <Color x:Key="HeaderBox">Silver</Color>
-        <Color x:Key="HeaderLabelColor">Blue</Color>
-        <Color x:Key="SubLabelColor">Silver</Color>
-        <Color x:Key="HighLightColor">Orange</Color>
-        <Color x:Key="SeparatorColor">Silver</Color>
+        <Color x:Key="HeaderBox">#f0f0f0</Color>
+        <Color x:Key="HeaderLabelColor">#4473c7</Color>
+        <Color x:Key="SubLabelColor">#d6d6d6</Color>
+        <Color x:Key="HighLightColor">#df9305</Color>
+        <Color x:Key="SeparatorColor">#e1e1e1</Color>
     </Application.Resources>
 </Application>

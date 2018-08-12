@@ -14,7 +14,7 @@ namespace AwesomeGithub.Features.PullRequest
 	{        
         public PullRequestView(Tuple<long, string,string> pullRequestParams) : this()
         {
-            Title = pullRequestParams.Item2;
+            Title = pullRequestParams.Item3;
             ViewModel.RepositoryId = pullRequestParams.Item1;
             ViewModel.UserName = pullRequestParams.Item2;
             ViewModel.RepositoryName = pullRequestParams.Item3;
@@ -31,15 +31,13 @@ namespace AwesomeGithub.Features.PullRequest
 
             d(this.OneWayBind(ViewModel, vm => vm.OpenedPullRequests, v => v.LabelPullRequestOpened.Text, this.FormatOpened));
             d(this.OneWayBind(ViewModel, vm => vm.ClosedPullRequests, v => v.LabelPullRequestClosed.Text, this.FormatClosed));                                              
-            d(this.OneWayBind(ViewModel, vm => vm.PullRequests, v => v.ListViewPullRequests.ItemsSource, this.ConvertToCollection));
+            d(this.OneWayBind(ViewModel, vm => vm.PullRequests, v => v.ListViewPullRequests.ItemsSource));
             d(this.OneWayBind(ViewModel, vm => vm.IsBusy, v => v.GridWaiting.IsVisible));
             
             ListSelectedObservable(d);
             ListViewPaginationObservable(d);
         }
-
-        private IEnumerable ConvertToCollection(Dictionary<long, GithubPullRequest> arg) => arg.Values;
-        
+                
         private string FormatOpened(int value) => $"{value} opened";
 
         private string FormatClosed(int value) => $"{value} closed";

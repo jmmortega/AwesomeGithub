@@ -8,10 +8,7 @@
              Title="GitHub Awesome">
 
     <StackLayout>
-        <Entry x:Name="EntryLanguageCode" />
-
-
-        <BoxView BackgroundColor="Silver" HeightRequest="1" HorizontalOptions="FillAndExpand" />
+        <Entry x:Name="EntryLanguageCode" Placeholder="Type language search here!" Margin="8,0,8,0"/>
     </StackLayout>
 
 </base:BaseReactiveContentPage>

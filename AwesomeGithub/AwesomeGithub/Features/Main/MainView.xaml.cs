@@ -15,6 +15,7 @@ namespace AwesomeGithub.Features.Main
 		public MainView ()
 		{
 			InitializeComponent ();
+            
 		}
 
         protected override void CreateBindings(Action<IDisposable> d)

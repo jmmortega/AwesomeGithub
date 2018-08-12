@@ -15,9 +15,10 @@
         </Grid.RowDefinitions>
 
 
-        <StackLayout Grid.Row="0" Orientation="Horizontal" BackgroundColor="{StaticResource HeaderBox}"
-                     Margin="16,0,0,0">
-            <Label x:Name="LabelPullRequestOpened" VerticalOptions="Center" Style="{StaticResource LabelStatus}" TextColor="{StaticResource HighLightColor}"/>
+        <StackLayout Grid.Row="0" Orientation="Horizontal" BackgroundColor="{StaticResource HeaderBox}" Spacing="0">
+            <Label x:Name="LabelPullRequestOpened" VerticalOptions="Center" 
+                   Margin="16,0,0,0"
+                   Style="{StaticResource LabelStatus}" TextColor="{StaticResource HighLightColor}"/>
             <Label Text="/" VerticalOptions="Center"/>
             <Label x:Name="LabelPullRequestClosed" VerticalOptions="Center" Style="{StaticResource LabelStatus}"/>
         </StackLayout>
@@ -27,7 +28,7 @@
                 <DataTemplate>
                     <ViewCell>
                         <Grid Margin="16,8,0,8">
-                            <StackLayout Margin="0,0,16,0">
+                            <StackLayout Margin="0,0,16,0" Spacing="0">
                                 <Label Text="{Binding Title}" Style="{StaticResource LabelTitle}"/>
                                 <control:LabelTLDR Text="{Binding Description}" Style="{StaticResource LabelDescription}"/>
 
@@ -35,9 +36,10 @@
                                     <imgCircle:CircleImage Source="{Binding User.Avatar}" 
                                                            WidthRequest="25" Aspect="AspectFit"/>
 
-                                    <StackLayout>
-                                        <Label Text="{Binding User.Login}" Style="{StaticResource LabelTitle}"/>
-                                        <Label Text="{Binding PullRequestDate}" Style="{StaticResource LabelDescription}"/>
+                                    <StackLayout Spacing="0">
+                                        <Label Text="{Binding User.Login}" Style="{StaticResource LabelUsername}"/>
+                                        <Label Text="{Binding PullRequestDate, Converter={StaticResource FormatDate}}" Style="{StaticResource LabelDescription}"
+                                               FontSize="12"/>
                                     </StackLayout>
                                 </StackLayout>
                             </StackLayout>

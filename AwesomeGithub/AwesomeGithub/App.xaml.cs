@@ -16,7 +16,8 @@ namespace AwesomeGithub
 
             LoadStyles();
 
-            MainPage = new MasterDetailPage() { Master = new MasterView(), Detail = new NavigationPage(new MainView()), IsGestureEnabled = true };
+            var detail = new NavigationPage(new MainView()) { BarBackgroundColor = (Color)App.Current.Resources["ApplicationColor"] };
+            MainPage = new MasterDetailPage() { Master = new MasterView(), Detail = detail, IsGestureEnabled = true };
 		}
 
         private void LoadStyles()

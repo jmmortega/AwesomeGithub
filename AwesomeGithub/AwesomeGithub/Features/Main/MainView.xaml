@@ -7,7 +7,8 @@
              xmlns:imgCircle="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin"
              xmlns:iconize="clr-namespace:FormsPlugin.Iconize;assembly=FormsPlugin.Iconize"
              x:Class="AwesomeGithub.Features.Main.MainView"
-             x:TypeArguments="me:MainViewModel">
+             x:TypeArguments="me:MainViewModel"
+             Title="Github Awesome">
 
             
     <Grid>
@@ -17,47 +18,50 @@
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0" BackgroundColor="{StaticResource HeaderBox}">
-            <Entry x:Name="EntrySearchBox" Margin="8,0,8,0"/>
+            <Entry x:Name="EntrySearchBox" Margin="16,0,16,0" Placeholder="Search" FontSize="13"/>
         </Grid>
 
         <ListView x:Name="ListViewRepositories" Grid.Row="1" HasUnevenRows="True" SeparatorVisibility="None">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
-                        <Grid Margin="16,8,0,8" ColumnSpacing="16">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="6*"/>
-                                <ColumnDefinition Width="4*"/>
-                            </Grid.ColumnDefinitions>
+                        <StackLayout>
+                            <Grid Margin="16,8,0,0" ColumnSpacing="16">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="6*"/>
+                                    <ColumnDefinition Width="4*"/>
+                                </Grid.ColumnDefinitions>
 
-                            <StackLayout Grid.Column="0" Margin="0,0,16,0">
-                                <Label Text="{Binding RepositoryName}" Style="{StaticResource LabelTitle}"/>
+                                <StackLayout Grid.Column="0" Margin="0,0,16,0">
+                                    <Label Text="{Binding RepositoryName}" Style="{StaticResource LabelTitle}"/>
 
-                                <control:LabelTLDR   Text="{Binding Description}" Style="{StaticResource LabelDescription}"/>
+                                    <control:LabelTLDR  Text="{Binding Description}" Style="{StaticResource LabelDescription}"/>
 
-                                <StackLayout Orientation="Horizontal">
-                                    <iconize:IconLabel FontSize="20" Text="fa-code-fork" TextColor="{StaticResource HighLightColor}"/>
-                                    <Label Text="{Binding ForksCount}" Style="{StaticResource LabelCount}"/>
+                                    <StackLayout Orientation="Horizontal">
+                                        <iconize:IconLabel FontSize="18" Text="fa-code-fork" TextColor="{StaticResource HighLightColor}"/>
+                                        <Label Text="{Binding ForksCount}" Style="{StaticResource LabelCount}"/>
 
-                                    <iconize:IconLabel FontSize="20" Text="fa-star" TextColor="{StaticResource HighLightColor}"/>
-                                    <Label Text="{Binding StarsCount}" Style="{StaticResource LabelCount}"/>
+                                        <iconize:IconLabel FontSize="18" Text="fa-star" TextColor="{StaticResource HighLightColor}"/>
+                                        <Label Text="{Binding StarsCount}" Style="{StaticResource LabelCount}"/>
 
+                                    </StackLayout>
                                 </StackLayout>
-                            </StackLayout>
 
-                            <StackLayout Grid.Column="1" Margin="0,0,16,8">
-                                <imgCircle:CircleImage Source="{Binding Owner.Avatar}"
-                                                       WidthRequest="50" Aspect="AspectFit" 
-                                                       HorizontalOptions="Center"/>
+                                <StackLayout Grid.Column="1" Margin="0,0,16,0" HorizontalOptions="CenterAndExpand" Spacing="0">
+                                    <imgCircle:CircleImage Source="{Binding Owner.Avatar}"
+                                                       WidthRequest="50" Aspect="AspectFit" />
 
-                                <Label Text="{Binding Owner.Login}" Style="{StaticResource LabelTitle}"/>
-                                <Label Text="{Binding FullName}" Style="{StaticResource LabelDescription}"/>
-                            </StackLayout>
+
+                                    <Label Text="{Binding Owner.Login}" Style="{StaticResource LabelUsername}" HorizontalTextAlignment="Center"/>
+                                    <Label Text="{Binding FullName}" Style="{StaticResource LabelDescription}" HorizontalTextAlignment="Center"/>
+                                </StackLayout>
+
+                            </Grid>
 
                             <BoxView BackgroundColor="{StaticResource SeparatorColor}" 
-                                     HeightRequest="1" VerticalOptions="End"
-                                     Grid.Column="0" Grid.ColumnSpan="2"/>
-                        </Grid>
+                                     HeightRequest="1" Margin="0,8,0,0"/>
+
+                        </StackLayout>
                     </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>

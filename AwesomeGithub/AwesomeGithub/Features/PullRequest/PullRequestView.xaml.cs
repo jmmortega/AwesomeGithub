@@ -12,6 +12,7 @@ namespace AwesomeGithub.Features.PullRequest
 	{        
         public PullRequestView(Tuple<string,string> pullRequestParams) : this()
         {
+            Title = pullRequestParams.Item2;
             ViewModel.UserName = pullRequestParams.Item1;
             ViewModel.RepositoryName = pullRequestParams.Item2;
         }
@@ -25,13 +26,19 @@ namespace AwesomeGithub.Features.PullRequest
         {
             base.CreateBindings(d);
 
-            d(this.OneWayBind(ViewModel, vm => vm.OpenedPullRequests, v => v.LabelPullRequestOpened.Text));
-            d(this.OneWayBind(ViewModel, vm => vm.ClosedPullRequests, v => v.LabelPullRequestClosed.Text));
+            d(this.OneWayBind(ViewModel, vm => vm.OpenedPullRequests, v => v.LabelPullRequestOpened.Text, this.FormatOpened));
 
+            d(this.OneWayBind(ViewModel, vm => vm.ClosedPullRequests, v => v.LabelPullRequestClosed.Text, this.FormatClosed));                              
+                
             d(this.OneWayBind(ViewModel, vm => vm.PullRequests, v => v.ListViewPullRequests.ItemsSource));
 
             Subscribe(d);
         }
+
+        private string FormatOpened(int value) => $"{value} opened";
+
+        private string FormatClosed(int value) => $"{value} closed";
+        
 
         private void Subscribe(Action<IDisposable> d)
         {

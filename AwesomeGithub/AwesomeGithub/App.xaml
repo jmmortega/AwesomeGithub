@@ -1,8 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Application xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converter="clr-namespace:AwesomeGithub.Converter"
              x:Class="AwesomeGithub.App">
 	<Application.Resources>
+        <converter:FormatDateValueConverter x:Key="FormatDate"/>
+
+        <Color x:Key="ApplicationColor">#89c064</Color>
         <Color x:Key="HeaderBox">#f0f0f0</Color>
         <Color x:Key="HeaderLabelColor">#4473c7</Color>
         <Color x:Key="SubLabelColor">#d6d6d6</Color>

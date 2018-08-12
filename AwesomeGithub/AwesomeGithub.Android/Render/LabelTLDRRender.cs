@@ -7,6 +7,7 @@ using Android.App;
 using Android.Content;
 using Android.OS;
 using Android.Runtime;
+using Android.Text;
 using Android.Views;
 using Android.Widget;
 using AwesomeGithub.Control;
@@ -30,7 +31,8 @@ namespace AwesomeGithub.Droid.Render
 
             if(Control != null)
             {
-                Control.SetMaxLines(3);
+                Control.SetMaxLines(2);
+                Control.Ellipsize = TextUtils.TruncateAt.End;
             }
         }
 

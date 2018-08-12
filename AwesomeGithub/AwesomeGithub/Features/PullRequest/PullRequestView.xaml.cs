@@ -35,6 +35,7 @@ namespace AwesomeGithub.Features.PullRequest
             d(this.OneWayBind(ViewModel, vm => vm.IsBusy, v => v.GridWaiting.IsVisible));
 
             ListSelectedObservable(d);
+            ListViewPaginationObservable(d);
         }
 
         private string FormatOpened(int value) => $"{value} opened";
@@ -63,14 +64,14 @@ namespace AwesomeGithub.Features.PullRequest
             }));
         }
 
-        /*
+        
         private void ListViewPaginationObservable(Action<IDisposable> d)
         {
             var paginationObservable = Observable.FromEventPattern<EventHandler<ItemVisibilityEventArgs>, ItemVisibilityEventArgs>(
-                h => ListViewRepositories.ItemAppearing += h,
-                h => ListViewRepositories.ItemAppearing -= h)
+                h => ListViewPullRequests.ItemAppearing += h,
+                h => ListViewPullRequests.ItemAppearing -= h)
                 .Where(x => x != null)
-                .Select(x => (GithubRepository)x.EventArgs.Item);
+                .Select(x => (GithubPullRequest)x.EventArgs.Item);
 
             d(paginationObservable.Subscribe(args =>
             {
@@ -78,6 +79,6 @@ namespace AwesomeGithub.Features.PullRequest
             }));
 
         }
-        */
+        
     }
 }

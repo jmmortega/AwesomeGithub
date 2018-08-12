@@ -12,8 +12,8 @@ namespace AwesomeGithub.Services.Interfaces
         Task<GithubRepositoryResult> SearchRepositories(string language, int page);
 
         [Headers("User-Agent: Awesome Octocat App")]
-        [Get("/repos/{name}/{repo}/pulls")]
-        Task<List<GithubPullRequest>> RequestPullRequest(string name, string repo);
+        [Get("/repos/{name}/{repo}/pulls?page={page}&state=all")]
+        Task<List<GithubPullRequest>> RequestPullRequest(string name, string repo, int page);
 
     }
 }

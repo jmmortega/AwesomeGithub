@@ -8,12 +8,21 @@ using Refit;
 using AwesomeGithub.Common;
 using AwesomeGithub.Model;
 using System.Linq;
+using System.Threading.Tasks;
+using System.Collections.ObjectModel;
+using AwesomeGithub.Extension;
+using Xamarin.Forms;
+using System.Reactive.Linq;
 
 namespace AwesomeGithub.Features.PullRequest
 {
     public class PullRequestViewModel : BaseReactiveViewModel
     {
         private readonly IGithubService githubService;
+
+        private int currentPage = 1;
+        private bool completed = false;
+        private bool newPullRequestsIncoming = false;
 
         public string RepositoryName { get; set; }
 
@@ -35,9 +44,9 @@ namespace AwesomeGithub.Features.PullRequest
             set => this.RaiseAndSetIfChanged(ref closedPullRequests, value);
         }
 
-        private List<GithubPullRequest> pullRequests;
+        private ObservableCollection<GithubPullRequest> pullRequests = new ObservableCollection<GithubPullRequest>();
 
-        public List<GithubPullRequest> PullRequests
+        public ObservableCollection<GithubPullRequest> PullRequests
         {
             get => pullRequests;
             set => this.RaiseAndSetIfChanged(ref pullRequests, value);
@@ -45,22 +54,55 @@ namespace AwesomeGithub.Features.PullRequest
 
         public PullRequestViewModel()
         {
-            githubService = RestService.For<IGithubService>(KeyValues.HostApiCall);
+            githubService = RestService.For<IGithubService>(KeyValues.HostApiCall);            
         }
-
-
+        
         public override async void OnAppearing()
         {
             base.OnAppearing();
 
             if(!string.IsNullOrWhiteSpace(RepositoryName))
             {
-                IsBusy = true;
-                PullRequests = await githubService.RequestPullRequest(UserName, RepositoryName);
-                OpenedPullRequests = PullRequests.Where(x => x.State == "open").Count();
-                ClosedPullRequests = PullRequests.Where(x => x.State == "closed").Count();
-                IsBusy = false;
+                PullRequests.AddRange(await RequestPullRequests());
+                CountPullRequestState();
             }                        
+        }
+        
+        public async void RequestNewPage(GithubPullRequest item)
+        {
+            var indexElement = PullRequests.IndexOf(item);
+
+            if (indexElement == PullRequests.Count - 5 && newPullRequestsIncoming == false && completed == false)
+            {
+                newPullRequestsIncoming = true;
+                currentPage++;
+                var newPRs = await RequestPullRequests(currentPage);
+
+                //Maybe there not more PR's for this Repo.
+                if(newPRs.Count == 0)
+                {
+                    completed = true;
+                }
+
+                PullRequests.AddRange(newPRs);
+                CountPullRequestState();
+                newPullRequestsIncoming = false;
+            }
+        }
+        
+        private void CountPullRequestState()
+        {
+            OpenedPullRequests = PullRequests.Where(x => x.State == "open").Count();
+            ClosedPullRequests = PullRequests.Where(x => x.State == "closed").Count();
+        }
+
+        private async Task<List<GithubPullRequest>> RequestPullRequests(int page = 1)
+        {
+            IsBusy = true;
+            var pullRequests = await githubService.RequestPullRequest(UserName, RepositoryName, page);                                                
+            IsBusy = false;
+
+            return pullRequests;
         }
     }
 }

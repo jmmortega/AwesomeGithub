@@ -60,8 +60,11 @@ namespace AwesomeGithub.Features.Main
         {
             MessagingCenter.Subscribe<MessageLanguageCode>(this, nameof(MessageLanguageCode), ChangeLanguageCode);
 
+            allRepositories = cacheService.GetRepositories().ToDictionary(x => x.Id);
+            ShowRepositories(SearchTerm);
             await SearchRepositories();
             ShowRepositories(SearchTerm);
+
 
             base.OnAppearing();
         }
@@ -111,6 +114,8 @@ namespace AwesomeGithub.Features.Main
             repositoryResult = await ExecuteInternetCallAsync<GithubRepositoryResult>(() => githubService.SearchRepositories(LanguageCode, page));
 
             allRepositories.AddRange(repositoryResult.Items.Select(x => new Tuple<long, GithubRepository>(x.Id, x)));
+
+            cacheService.AddRepositories(allRepositories.Select(x => x.Value).ToList());
 
             Device.BeginInvokeOnMainThread(() => IsBusy = false);
         }

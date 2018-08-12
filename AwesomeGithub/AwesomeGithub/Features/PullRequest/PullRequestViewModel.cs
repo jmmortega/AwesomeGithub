@@ -28,6 +28,8 @@ namespace AwesomeGithub.Features.PullRequest
 
         public string UserName { get; set; }
 
+        public long RepositoryId { get; set; }
+
         private int openedPullRequests;
 
         public int OpenedPullRequests
@@ -44,9 +46,9 @@ namespace AwesomeGithub.Features.PullRequest
             set => this.RaiseAndSetIfChanged(ref closedPullRequests, value);
         }
 
-        private ObservableCollection<GithubPullRequest> pullRequests = new ObservableCollection<GithubPullRequest>();
+        private Dictionary<long, GithubPullRequest> pullRequests = new Dictionary<long, GithubPullRequest>();
 
-        public ObservableCollection<GithubPullRequest> PullRequests
+        public Dictionary<long, GithubPullRequest> PullRequests
         {
             get => pullRequests;
             set => this.RaiseAndSetIfChanged(ref pullRequests, value);
@@ -61,16 +63,20 @@ namespace AwesomeGithub.Features.PullRequest
         {
             base.OnAppearing();
 
+            PullRequests = cacheService.GetPullRequests(RepositoryId).ToDictionary(x => x.Id);
+
             if(!string.IsNullOrWhiteSpace(RepositoryName))
             {
-                PullRequests.AddRange(await RequestPullRequests());
+                var prs = (await RequestPullRequests()).Select(x => new Tuple<long, GithubPullRequest>(x.Id, x));
+                PullRequests.Clear();
+                PullRequests.AddRange(prs);
                 CountPullRequestState();
             }                        
         }
         
         public async void RequestNewPage(GithubPullRequest item)
-        {
-            var indexElement = PullRequests.IndexOf(item);
+        {                        
+            var indexElement = PullRequests.Values.ToList().IndexOf(item);
 
             if (indexElement == PullRequests.Count - 5 && newPullRequestsIncoming == false && completed == false)
             {
@@ -84,7 +90,8 @@ namespace AwesomeGithub.Features.PullRequest
                     completed = true;
                 }
 
-                PullRequests.AddRange(newPRs);
+                PullRequests.AddRange(newPRs.Select(x => new Tuple<long, GithubPullRequest>(x.Id, x)));
+
                 CountPullRequestState();
                 newPullRequestsIncoming = false;
             }
@@ -92,8 +99,8 @@ namespace AwesomeGithub.Features.PullRequest
         
         private void CountPullRequestState()
         {
-            OpenedPullRequests = PullRequests.Where(x => x.State == "open").Count();
-            ClosedPullRequests = PullRequests.Where(x => x.State == "closed").Count();
+            OpenedPullRequests = PullRequests.Where(x => x.Value.State == "open").Count();
+            ClosedPullRequests = PullRequests.Where(x => x.Value.State == "closed").Count();
         }
 
         private async Task<List<GithubPullRequest>> RequestPullRequests(int page = 1)

@@ -1,6 +1,8 @@
 ﻿using AwesomeGithub.Model;
 using ReactiveUI;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Reactive.Linq;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -10,11 +12,12 @@ namespace AwesomeGithub.Features.PullRequest
     [XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class PullRequestView
 	{        
-        public PullRequestView(Tuple<string,string> pullRequestParams) : this()
+        public PullRequestView(Tuple<long, string,string> pullRequestParams) : this()
         {
             Title = pullRequestParams.Item2;
-            ViewModel.UserName = pullRequestParams.Item1;
-            ViewModel.RepositoryName = pullRequestParams.Item2;
+            ViewModel.RepositoryId = pullRequestParams.Item1;
+            ViewModel.UserName = pullRequestParams.Item2;
+            ViewModel.RepositoryName = pullRequestParams.Item3;
         }
 
 		public PullRequestView ()
@@ -27,17 +30,16 @@ namespace AwesomeGithub.Features.PullRequest
             base.CreateBindings(d);
 
             d(this.OneWayBind(ViewModel, vm => vm.OpenedPullRequests, v => v.LabelPullRequestOpened.Text, this.FormatOpened));
-
-            d(this.OneWayBind(ViewModel, vm => vm.ClosedPullRequests, v => v.LabelPullRequestClosed.Text, this.FormatClosed));                              
-                
-            d(this.OneWayBind(ViewModel, vm => vm.PullRequests, v => v.ListViewPullRequests.ItemsSource));
-
+            d(this.OneWayBind(ViewModel, vm => vm.ClosedPullRequests, v => v.LabelPullRequestClosed.Text, this.FormatClosed));                                              
+            d(this.OneWayBind(ViewModel, vm => vm.PullRequests, v => v.ListViewPullRequests.ItemsSource, this.ConvertToCollection));
             d(this.OneWayBind(ViewModel, vm => vm.IsBusy, v => v.GridWaiting.IsVisible));
             
             ListSelectedObservable(d);
             ListViewPaginationObservable(d);
         }
 
+        private IEnumerable ConvertToCollection(Dictionary<long, GithubPullRequest> arg) => arg.Values;
+        
         private string FormatOpened(int value) => $"{value} opened";
 
         private string FormatClosed(int value) => $"{value} closed";

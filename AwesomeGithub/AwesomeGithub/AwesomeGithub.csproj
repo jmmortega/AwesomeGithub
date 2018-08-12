@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MonkeyCache.FileStore" Version="0.1.0.10-beta" />
     <PackageReference Include="ReactiveUI" Version="8.4.4" />
     <PackageReference Include="ReactiveUI.XamForms" Version="8.4.4" />
     <PackageReference Include="Refit" Version="4.6.30" />

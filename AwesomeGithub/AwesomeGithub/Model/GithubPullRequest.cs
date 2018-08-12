@@ -7,6 +7,10 @@ namespace AwesomeGithub.Model
 {
     public class GithubPullRequest
     {
+        [JsonProperty("id")]
+        public long Id { get; set; }
+
+
         [JsonProperty("title")]
         public string Title { get; set; }
 

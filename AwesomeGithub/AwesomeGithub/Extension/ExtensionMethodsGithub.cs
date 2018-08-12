@@ -7,10 +7,10 @@ namespace AwesomeGithub.Extension
 {
     public static class ExtensionMethodsGithub
     {
-        public static Tuple<string,string> PullRequestParams(this GithubRepository githubRepository)
+        public static Tuple<long,string,string> PullRequestParams(this GithubRepository githubRepository)
         {
             //Also if not working you can get  "pulls_url" field from Json
-            return new Tuple<string, string>(githubRepository.Owner.Login, githubRepository.RepositoryName);
+            return new Tuple<long,string, string>(githubRepository.Id, githubRepository.Owner.Login, githubRepository.RepositoryName);
         }        
     }
 }

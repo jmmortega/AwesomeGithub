@@ -48,6 +48,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="MonkeyCache.FileStore">
+      <Version>0.1.0.10-beta</Version>
+    </PackageReference>
     <PackageReference Include="Refit">
       <Version>4.6.30</Version>
     </PackageReference>
